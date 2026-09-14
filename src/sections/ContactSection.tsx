@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { SectionHeading } from '../components/ui/SectionHeading';
-import { Mail, Linkedin, Github, Send, MapPin, CheckCircle2, Copy, Check, MessageSquare } from 'lucide-react';
+import { Linkedin, Github, Send, MapPin, CheckCircle2, Copy, Check, MessageSquare, Phone, Mail } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { PERSONAL_INFO } from '../data/portfolioData';
 
@@ -22,7 +22,6 @@ export const ContactSection: React.FC = () => {
     if (!formData.name || !formData.email || !formData.message) return;
 
     setIsSubmitting(true);
-    // Simulate real submission
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
@@ -59,17 +58,17 @@ export const ContactSection: React.FC = () => {
             <div className="space-y-6">
               <div>
                 <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-2">
-                  Direct Contact & Profiles
+                  Direct Contact Details
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                  Whether you have an enterprise integration project, need a technical QA lead, or are seeking a full-stack developer, reach out directly.
+                  Reach out directly via email, phone, or LinkedIn to discuss full-stack engineering, QA leadership, or DevOps opportunities.
                 </p>
               </div>
 
               {/* Contact item: Email */}
               <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-2">
                 <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider block">
-                  Official Contact Email
+                  Email Address
                 </span>
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-sm font-mono text-cyan-600 dark:text-cyan-400 font-semibold truncate">
@@ -82,6 +81,18 @@ export const ContactSection: React.FC = () => {
                   >
                     {emailCopied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
                   </button>
+                </div>
+              </div>
+
+              {/* Contact item: Phone */}
+              <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-2">
+                <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider block flex items-center gap-1.5">
+                  <Phone className="w-3.5 h-3.5 text-cyan-500" /> Phone Numbers
+                </span>
+                <div className="text-xs sm:text-sm font-mono text-slate-800 dark:text-slate-200 font-semibold space-y-1">
+                  {PERSONAL_INFO.phoneNumbers.map((phone, idx) => (
+                    <div key={idx}>{phone}</div>
+                  ))}
                 </div>
               </div>
 
@@ -166,7 +177,7 @@ export const ContactSection: React.FC = () => {
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Hiring Manager / Engineering Director"
+                    placeholder="e.g. Hiring Manager / Engineering Lead"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
@@ -194,7 +205,7 @@ export const ContactSection: React.FC = () => {
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g. Senior Full Stack & QA Engineering Role"
+                  placeholder="e.g. Full Stack / QA / DevOps Engineering Opportunity"
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                   className="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
@@ -208,7 +219,7 @@ export const ContactSection: React.FC = () => {
                 <textarea
                   required
                   rows={5}
-                  placeholder="Describe your project, team requirements, or potential opportunity..."
+                  placeholder="Describe your project, team requirements, or opportunity..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   className="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"

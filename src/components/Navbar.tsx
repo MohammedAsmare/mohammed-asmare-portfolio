@@ -13,7 +13,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  const sectionIds = ['home', 'about', 'skills', 'experience', 'projects', 'sdlc', 'qa', 'education', 'contact'];
+  const sectionIds = ['home', 'about', 'skills', 'experience', 'projects', 'qa', 'education', 'contact'];
   const activeSection = useActiveSection(sectionIds, 120);
 
   const { scrollYProgress } = useScroll();
@@ -37,9 +37,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
     { id: 'skills', label: 'Skills' },
     { id: 'experience', label: 'Experience' },
     { id: 'projects', label: 'Projects' },
-    { id: 'sdlc', label: 'SDLC' },
     { id: 'qa', label: 'QA Mindset' },
-    { id: 'education', label: 'Education' },
+    { id: 'education', label: 'Education & Certs' },
     { id: 'contact', label: 'Contact' },
   ];
 

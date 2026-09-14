@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Download, FileText, Building, Mail, Globe, Briefcase, GraduationCap, Award } from 'lucide-react';
-import { PERSONAL_INFO, EXPERIENCE_LIST, EDUCATION_LIST } from '../data/portfolioData';
+import { X, Download, FileText, Building, Mail, Phone, Globe, Briefcase, GraduationCap, Award } from 'lucide-react';
+import { PERSONAL_INFO, EXPERIENCE_LIST, EDUCATION_LIST, CERTIFICATIONS_LIST } from '../data/portfolioData';
 
 interface ResumeModalProps {
   isOpen: boolean;
@@ -23,14 +23,14 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
         <head>
           <title>Resume - ${PERSONAL_INFO.name}</title>
           <style>
-            body { font-family: sans-serif; line-height: 1.5; color: #1e293b; padding: 40px; }
-            h1 { font-size: 24px; margin-bottom: 4px; color: #0f172a; }
-            h2 { font-size: 16px; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px; color: #0284c7; }
+            body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.5; color: #1e293b; padding: 40px; }
+            h1 { font-size: 26px; margin-bottom: 2px; color: #0f172a; }
+            h2 { font-size: 15px; border-bottom: 2px solid #0284c7; padding-bottom: 4px; margin-top: 20px; color: #0284c7; text-transform: uppercase; }
             .subtitle { color: #475569; font-size: 14px; font-weight: bold; }
             .meta { color: #64748b; font-size: 12px; margin-bottom: 12px; }
             ul { padding-left: 20px; margin-top: 4px; }
             li { font-size: 12px; margin-bottom: 4px; }
-            .skill-group { font-size: 12px; margin-bottom: 6px; }
+            .cert-item { font-size: 11px; margin-bottom: 4px; }
           </style>
         </head>
         <body>
@@ -96,6 +96,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
               <div className="flex flex-wrap gap-4 text-xs text-slate-400 font-mono">
                 <span className="flex items-center gap-1"><Globe className="w-3.5 h-3.5 text-cyan-400" /> {PERSONAL_INFO.location}</span>
                 <span className="flex items-center gap-1"><Mail className="w-3.5 h-3.5 text-cyan-400" /> {PERSONAL_INFO.contactEmail}</span>
+                <span className="flex items-center gap-1"><Phone className="w-3.5 h-3.5 text-cyan-400" /> {PERSONAL_INFO.phoneNumbers.join(' / ')}</span>
                 <span className="flex items-center gap-1"><Briefcase className="w-3.5 h-3.5 text-cyan-400" /> {PERSONAL_INFO.experienceYears} Experience</span>
               </div>
             </div>
@@ -107,20 +108,20 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
-                  <span className="text-white font-semibold block mb-1">Backend & Integration:</span>
-                  <p className="text-slate-400 text-xs">Java, Spring Boot, Microservices, REST/SOAP APIs, PostgreSQL, TIBCO BusinessWorks</p>
+                  <span className="text-white font-semibold block mb-1">Full Stack & Backend:</span>
+                  <p className="text-slate-400 text-xs">Java (Spring Boot), Python (FastAPI, Django), React (TypeScript), REST APIs, Microservices</p>
                 </div>
                 <div>
-                  <span className="text-white font-semibold block mb-1">Frontend & QA:</span>
-                  <p className="text-slate-400 text-xs">React, TypeScript, SIT Leadership, Postman/Newman, API & Performance Testing</p>
+                  <span className="text-white font-semibold block mb-1">QA & Integration:</span>
+                  <p className="text-slate-400 text-xs">SIT Governance, Functional/Non-Functional Testing, Postman Automation, JMeter Load Testing, Defect Triage</p>
                 </div>
                 <div>
                   <span className="text-white font-semibold block mb-1">DevOps & Cloud:</span>
-                  <p className="text-slate-400 text-xs">Docker, Kubernetes, Jenkins, GitLab CI/CD, Linux, Prometheus & Grafana</p>
+                  <p className="text-slate-400 text-xs">Kubernetes, Docker, Helm, Jenkins, GitLab CI/CD, ArgoCD, Linux Administration</p>
                 </div>
                 <div>
-                  <span className="text-white font-semibold block mb-1">Enterprise Domain:</span>
-                  <p className="text-slate-400 text-xs">20+ Bank Integrations, M-Pesa Ecosystem, Telecommunications Middleware</p>
+                  <span className="text-white font-semibold block mb-1">Databases & Middleware:</span>
+                  <p className="text-slate-400 text-xs">PostgreSQL, Oracle Database, MySQL, TIBCO BusinessWorks Migration</p>
                 </div>
               </div>
             </div>
@@ -128,7 +129,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
             {/* Experience */}
             <div>
               <h2 className="text-sm font-bold uppercase tracking-wider text-cyan-400 mb-4 flex items-center gap-2 border-b border-slate-800 pb-1">
-                <Briefcase className="w-4 h-4" /> Professional Experience
+                <Briefcase className="w-4 h-4" /> Professional Work Experience
               </h2>
               <div className="space-y-5">
                 {EXPERIENCE_LIST.map((exp, idx) => (
@@ -138,7 +139,7 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
                       <span className="text-xs font-mono text-cyan-400">{exp.period}</span>
                     </div>
                     <p className="text-xs text-slate-400 font-medium flex items-center gap-1.5">
-                      <Building className="w-3.5 h-3.5 text-slate-500" /> {exp.company}
+                      <Building className="w-3.5 h-3.5 text-slate-500" /> {exp.company} {exp.location ? `| ${exp.location}` : ''}
                     </p>
                     <ul className="list-disc pl-5 text-xs text-slate-300 space-y-1 pt-1">
                       {exp.highlights.map((item, hIdx) => (
@@ -158,9 +159,25 @@ export const ResumeModal: React.FC<ResumeModalProps> = ({ isOpen, onClose }) => 
               <div className="space-y-3">
                 {EDUCATION_LIST.map((edu, idx) => (
                   <div key={idx}>
-                    <h3 className="font-bold text-white text-sm">{edu.degree}</h3>
+                    <div className="flex justify-between items-baseline">
+                      <h3 className="font-bold text-white text-sm">{edu.degree}</h3>
+                      {edu.gpa && <span className="text-xs font-mono text-emerald-400 font-bold">GPA: {edu.gpa}</span>}
+                    </div>
                     <p className="text-xs text-slate-400">{edu.institution} {edu.period ? `(${edu.period})` : ''}</p>
-                    {edu.details && <p className="text-xs text-slate-400 mt-0.5">{edu.details}</p>}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Certifications */}
+            <div>
+              <h2 className="text-sm font-bold uppercase tracking-wider text-cyan-400 mb-3 flex items-center gap-2 border-b border-slate-800 pb-1">
+                <Award className="w-4 h-4" /> Certifications & Continuous Learning
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                {CERTIFICATIONS_LIST.map((cert, idx) => (
+                  <div key={idx} className="cert-item text-slate-300">
+                    <span className="text-white font-semibold">{cert.title}</span> — <span className="text-slate-400">{cert.issuer}</span>
                   </div>
                 ))}
               </div>

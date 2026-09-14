@@ -5,7 +5,6 @@ import { AboutSection } from './sections/AboutSection';
 import { SkillsSection } from './sections/SkillsSection';
 import { ExperienceSection } from './sections/ExperienceSection';
 import { ProjectsSection } from './sections/ProjectsSection';
-import { SdlcSection } from './sections/SdlcSection';
 import { QaMindsetSection } from './sections/QaMindsetSection';
 import { EducationSection } from './sections/EducationSection';
 import { ContactSection } from './sections/ContactSection';
@@ -28,7 +27,6 @@ export const App: React.FC = () => {
         <SkillsSection />
         <ExperienceSection />
         <ProjectsSection />
-        <SdlcSection />
         <QaMindsetSection />
         <EducationSection />
         <ContactSection />

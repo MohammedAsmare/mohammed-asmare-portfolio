@@ -37,8 +37,8 @@ export const Footer: React.FC = () => {
             <button onClick={() => scrollToSection('skills')} className="hover:text-cyan-400 transition-colors">Skills</button>
             <button onClick={() => scrollToSection('experience')} className="hover:text-cyan-400 transition-colors">Experience</button>
             <button onClick={() => scrollToSection('projects')} className="hover:text-cyan-400 transition-colors">Projects</button>
-            <button onClick={() => scrollToSection('sdlc')} className="hover:text-cyan-400 transition-colors">SDLC</button>
             <button onClick={() => scrollToSection('qa')} className="hover:text-cyan-400 transition-colors">QA Mindset</button>
+            <button onClick={() => scrollToSection('education')} className="hover:text-cyan-400 transition-colors">Education & Certs</button>
             <button onClick={() => scrollToSection('contact')} className="hover:text-cyan-400 transition-colors">Contact</button>
           </div>
 

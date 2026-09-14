@@ -11,7 +11,7 @@ export type SkillCategory =
 export interface SkillItem {
   name: string;
   category: SkillCategory;
-  proficiency?: number; // percentage 1-100
+  proficiency?: number;
   iconName?: string;
   highlight?: boolean;
 }
@@ -20,6 +20,7 @@ export interface ExperienceItem {
   company: string;
   role: string;
   period: string;
+  location?: string;
   isCurrent?: boolean;
   tagline?: string;
   highlights: string[];
@@ -38,16 +39,8 @@ export interface ProjectItem {
   githubUrl?: string;
   liveDemoUrl?: string;
   featured?: boolean;
-  architectureType: 'Microservice' | 'Modernization' | 'CI/CD' | 'QA Framework';
+  architectureType: 'Microservice' | 'Modernization' | 'CI/CD' | 'QA Framework' | 'Fintech Mobile App';
   impactMetrics: { label: string; value: string }[];
-}
-
-export interface SdlcStep {
-  step: number;
-  title: string;
-  description: string;
-  tools: string[];
-  qaIntegration: string;
 }
 
 export interface EducationItem {
@@ -55,7 +48,15 @@ export interface EducationItem {
   institution: string;
   location?: string;
   period?: string;
+  gpa?: string;
   details?: string;
+}
+
+export interface CertificationItem {
+  title: string;
+  issuer: string;
+  period?: string;
+  category?: 'DevOps' | 'AI' | 'Docker' | 'Git' | 'Management';
 }
 
 export interface QaPillar {
