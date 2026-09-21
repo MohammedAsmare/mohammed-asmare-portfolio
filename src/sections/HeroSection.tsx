@@ -47,7 +47,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResume }) => {
               </div>
             </div>
 
-            {/* Main Name & Title */}
+
             <div className="space-y-2">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.1]">
                 {PERSONAL_INFO.name}
