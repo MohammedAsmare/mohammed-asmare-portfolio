@@ -14,6 +14,7 @@ export interface SkillItem {
   proficiency?: number;
   iconName?: string;
   highlight?: boolean;
+  featured?: boolean;
 }
 
 export interface ExperienceItem {
@@ -57,11 +58,4 @@ export interface CertificationItem {
   issuer: string;
   period?: string;
   category?: 'DevOps' | 'AI' | 'Docker' | 'Git' | 'Management';
-}
-
-export interface QaPillar {
-  title: string;
-  description: string;
-  icon: string;
-  details: string[];
 }

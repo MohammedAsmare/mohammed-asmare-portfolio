@@ -13,7 +13,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  const sectionIds = ['home', 'about', 'skills', 'experience', 'projects', 'qa', 'education', 'contact'];
+  const sectionIds = ['home', 'about', 'skills', 'experience', 'projects', 'education', 'contact'];
   const activeSection = useActiveSection(sectionIds, 120);
 
   const { scrollYProgress } = useScroll();
@@ -37,7 +37,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
     { id: 'skills', label: 'Skills' },
     { id: 'experience', label: 'Experience' },
     { id: 'projects', label: 'Projects' },
-    { id: 'qa', label: 'QA Mindset' },
     { id: 'education', label: 'Education & Certs' },
     { id: 'contact', label: 'Contact' },
   ];
@@ -62,11 +61,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
 
       {/* Navbar Container */}
       <header
-        className={`fixed top-1 left-0 right-0 z-40 transition-all duration-300 ${
-          scrolled
+        className={`fixed top-1 left-0 right-0 z-40 transition-all duration-300 ${scrolled
             ? 'bg-slate-50/90 dark:bg-[#070a12]/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/80 py-3 shadow-md'
             : 'bg-transparent py-5'
-        }`}
+          }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Brand Logo */}
@@ -82,7 +80,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
                 Mohammed Asmare
               </span>
               <span className="block text-[10px] font-mono text-cyan-600 dark:text-cyan-400 font-medium">
-                Full Stack & QA Specialist
+                Integration Manager | Full Stack | QA Specialist
               </span>
             </div>
           </button>
@@ -95,11 +93,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`px-3.5 py-1.5 text-xs font-medium rounded-full transition-all duration-200 relative ${
-                    isActive
+                  className={`px-3.5 py-1.5 text-xs font-medium rounded-full transition-all duration-200 relative ${isActive
                       ? 'text-cyan-950 dark:text-cyan-300 font-semibold'
                       : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
-                  }`}
+                    }`}
                 >
                   {isActive && (
                     <motion.div
@@ -162,18 +159,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume }) => {
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`px-4 py-2.5 text-sm font-medium rounded-xl text-left flex items-center justify-between transition-colors ${
-                    isActive
+                  className={`px-4 py-2.5 text-sm font-medium rounded-xl text-left flex items-center justify-between transition-colors ${isActive
                       ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
                       : 'hover:bg-slate-800 text-slate-300'
-                  }`}
+                    }`}
                 >
                   <span>{item.label}</span>
                   {isActive && <span className="w-2 h-2 rounded-full bg-cyan-400" />}
                 </button>
               );
             })}
-            
+
             <div className="pt-3 border-t border-slate-800 mt-2">
               <button
                 onClick={() => {

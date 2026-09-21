@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SectionHeading } from '../components/ui/SectionHeading';
-import { Search, Code2, Layout, Server, Database, ShieldCheck, GitBranch, Layers, Activity, Star } from 'lucide-react';
+import { Search, Code2, Layout, Server, Database, ShieldCheck, GitBranch, Layers, Activity, Star, Sparkles } from 'lucide-react';
 import { SKILL_ITEMS } from '../data/portfolioData';
 import { SkillCategory } from '../types/portfolio';
 
 export const SkillsSection: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<SkillCategory | 'All'>('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [showAllInAllView, setShowAllInAllView] = useState(false);
 
   const categories: (SkillCategory | 'All')[] = [
     'All',
@@ -22,7 +23,7 @@ export const SkillsSection: React.FC = () => {
   ];
 
   const categoryIcons: Record<string, React.ReactNode> = {
-    'All': <Code2 className="w-3.5 h-3.5" />,
+    'All': <Sparkles className="w-3.5 h-3.5 text-amber-400" />,
     'Programming': <Code2 className="w-3.5 h-3.5 text-cyan-400" />,
     'Frontend': <Layout className="w-3.5 h-3.5 text-indigo-400" />,
     'Backend': <Server className="w-3.5 h-3.5 text-cyan-400" />,
@@ -34,11 +35,32 @@ export const SkillsSection: React.FC = () => {
   };
 
   const filteredSkills = SKILL_ITEMS.filter(skill => {
-    const matchesCategory = selectedCategory === 'All' || skill.category === selectedCategory;
     const matchesSearch = skill.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           skill.category.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+    if (!matchesSearch) return false;
+
+    if (selectedCategory === 'All') {
+      // When searching, query across all skills
+      if (searchQuery.trim() !== '') return true;
+      // In default All view, show the 20 optimized/featured skills unless user toggles all
+      return showAllInAllView ? true : !!skill.featured;
+    }
+
+    // When a specific category is clicked, display all skills for that category
+    return skill.category === selectedCategory;
   });
+
+  const getCategoryCount = (cat: SkillCategory | 'All') => {
+    if (cat === 'All') {
+      return showAllInAllView ? SKILL_ITEMS.length : SKILL_ITEMS.filter(s => s.featured).length;
+    }
+    return SKILL_ITEMS.filter(s => s.category === cat).length;
+  };
+
+  const getCategoryLabel = (cat: SkillCategory | 'All') => {
+    if (cat === 'All') return 'Core Stack';
+    return cat;
+  };
 
   return (
     <section id="skills" className="py-20 md:py-28 relative bg-dots-glow">
@@ -46,7 +68,7 @@ export const SkillsSection: React.FC = () => {
         <SectionHeading
           badge="Technical Arsenal"
           title="Skills & Core Competencies"
-          subtitle="A comprehensive overview of programming languages, frameworks, quality assurance testing suites, DevOps tooling, and enterprise integration platforms."
+          subtitle="Top 20 core technologies highlighted in the Core Stack, with full specialized skillsets accessible under each category."
         />
 
         {/* Search & Category Filter Controls */}
@@ -75,6 +97,7 @@ export const SkillsSection: React.FC = () => {
           <div className="flex flex-wrap items-center justify-center gap-2">
             {categories.map((cat) => {
               const isSelected = selectedCategory === cat;
+              const count = getCategoryCount(cat);
               return (
                 <button
                   key={cat}
@@ -86,10 +109,36 @@ export const SkillsSection: React.FC = () => {
                   }`}
                 >
                   {categoryIcons[cat]}
-                  <span>{cat}</span>
+                  <span>{getCategoryLabel(cat)}</span>
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${
+                    isSelected ? 'bg-slate-950/20 text-slate-950' : 'bg-slate-300/60 dark:bg-slate-700/60 text-slate-600 dark:text-slate-400'
+                  }`}>
+                    {count}
+                  </span>
                 </button>
               );
             })}
+          </div>
+
+          {/* View Mode Context Info */}
+          <div className="flex items-center justify-between text-xs font-mono text-slate-500 dark:text-slate-400 max-w-5xl mx-auto px-2">
+            <span>
+              {selectedCategory === 'All' ? (
+                showAllInAllView
+                  ? `Showing all ${filteredSkills.length} technologies across all domains`
+                  : `Showing 20 core stack technologies • Select any category to view full skillsets`
+              ) : (
+                `Showing all ${filteredSkills.length} ${selectedCategory} skills`
+              )}
+            </span>
+            {selectedCategory === 'All' && !searchQuery && (
+              <button
+                onClick={() => setShowAllInAllView(!showAllInAllView)}
+                className="text-cyan-600 dark:text-cyan-400 hover:underline font-semibold ml-4"
+              >
+                {showAllInAllView ? 'Show Core Stack (20)' : `View Full Arsenal (${SKILL_ITEMS.length})`}
+              </button>
+            )}
           </div>
         </div>
 
@@ -148,7 +197,7 @@ export const SkillsSection: React.FC = () => {
 
         {filteredSkills.length === 0 && (
           <div className="text-center py-12 text-slate-500 dark:text-slate-400 font-mono text-sm">
-            No technologies match "{searchQuery}" in category "{selectedCategory}".
+            No technologies match "{searchQuery}" in category "{getCategoryLabel(selectedCategory)}".
           </div>
         )}
       </div>

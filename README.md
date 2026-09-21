@@ -8,7 +8,6 @@ Modern, responsive, enterprise-grade personal portfolio website for **Mohammed A
 - **Experience Timeline**: Highlights specialist integration work at **Safaricom Ethiopia** and **Exceed**, including 20+ commercial bank integrations and legacy TIBCO-to-Spring Boot modernization.
 - **Technical Skills Arsenal**: Searchable and filterable grid across Programming, Frontend, Backend, Database, QA & Testing, DevOps, Enterprise Integration, and Monitoring.
 - **Enterprise Case Studies**: Deep architecture breakdown modals for API microservices, middleware modernization, CI/CD Kubernetes deployments, and System Integration Testing (SIT) frameworks.
-- **Embedded QA Mindset**: Interactive Defect Lifecycle Triage Simulator (*Quality is part of development, not a final step*).
 - **Curriculum Vitae Modal**: Interactive printable/saveable resume viewer.
 - **Dark/Light Mode**: Smooth theme toggling with `localStorage` persistence.
 

@@ -27,7 +27,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResume }) => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          
+
           {/* Left Hero Content */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -39,7 +39,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResume }) => {
             <div className="flex flex-wrap items-center gap-2">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-600 dark:text-cyan-400 text-xs font-mono font-medium">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span>Specialist Integration & DevOps Engineer</span>
+                <span>Safaricom Ethiopia</span>
               </div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-200/80 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">
                 <MapPin className="w-3.5 h-3.5 text-cyan-500" />
@@ -68,13 +68,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onOpenResume }) => {
                 <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
                 <span>20+ Bank Integrations</span>
               </div>
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-cyan-500 shrink-0" />
-                <span>SIT & API QA Lead</span>
-              </div>
               <div className="flex items-center gap-2 col-span-2 sm:col-span-1">
                 <Code2 className="w-4 h-4 text-indigo-500 shrink-0" />
                 <span>Spring Boot & React</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-cyan-500 shrink-0" />
+                <span>SIT & API QA Lead</span>
               </div>
             </div>
 

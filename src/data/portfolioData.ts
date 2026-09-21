@@ -1,13 +1,13 @@
-import { SkillItem, ExperienceItem, ProjectItem, EducationItem, CertificationItem, QaPillar } from '../types/portfolio';
+import { SkillItem, ExperienceItem, ProjectItem, EducationItem, CertificationItem } from '../types/portfolio';
 
 export const PERSONAL_INFO = {
   name: 'Mohammed Asmare',
-  title: 'Software Engineer',
-  subtitle: 'Full Stack Developer, QA Lead & DevOps Engineer',
+  title: 'Integration Manager',
+  subtitle: 'Full Stack Developer, DevOps Engineer & QA Lead',
   location: 'Addis Ababa, Ethiopia',
   experienceYears: '5+',
   tagline: 'Building Scalable Systems & Ensuring Enterprise-Grade Software Quality',
-  heroIntro: 'Software Engineer and Specialist Integration & DevOps Engineer with 5+ years of experience building scalable applications, integrating enterprise systems, managing cloud-native Kubernetes clusters, and ensuring software quality across development, testing, and DevOps.',
+  heroIntro: 'Software Engineer, Integration & DevOps Specialist with 5+ years of experience designing and delivering scalable distributed applications, leading mission-critical enterprise integrations, managing cloud-native Kubernetes infrastructure, and driving automation, system reliability, and software quality across the entire engineering lifecycle. Experienced in leading technical teams, optimizing integration solutions, and aligning technology initiatives with business objectives to deliver secure, resilient, and high-performing enterprise systems.',
   aboutDetailed: 'I am a Software Engineer based in Addis Ababa, Ethiopia, specializing in high-throughput enterprise backends, cloud-native microservices, modern frontend web applications, and end-to-end quality assurance. Over the past 5+ years, I have engineered mission-critical applications at Safaricom Ethiopia and Exceed, migrating legacy TIBCO middleware into Java Spring Boot microservices, building Python FastAPI endpoints, leading System Integration Testing (SIT), and orchestrating containerized deployments with Kubernetes, Docker, Helm, and Jenkins.',
   valueProposition: 'By unifying Development, QA, and DevOps into a cohesive engineering mindset, I eliminate silos, prevent production defects before code reaches staging, and deliver fast, resilient software deployments.',
   contactEmail: 'mohammedasmare@gmail.com',
@@ -19,62 +19,64 @@ export const PERSONAL_INFO = {
 
 export const SKILL_ITEMS: SkillItem[] = [
   // Programming
-  { name: 'Java', category: 'Programming', proficiency: 92, highlight: true },
-  { name: 'Python', category: 'Programming', proficiency: 90, highlight: true },
-  { name: 'TypeScript', category: 'Programming', proficiency: 90, highlight: true },
+  { name: 'Java', category: 'Programming', proficiency: 94, highlight: true, featured: true },
+  { name: 'Python', category: 'Programming', proficiency: 90, highlight: true, featured: true },
+  { name: 'TypeScript', category: 'Programming', proficiency: 92, highlight: true, featured: true },
   { name: 'JavaScript', category: 'Programming', proficiency: 92 },
   { name: 'SQL', category: 'Programming', proficiency: 92 },
   { name: 'C++', category: 'Programming', proficiency: 80 },
 
   // Frontend
-  { name: 'React (TypeScript)', category: 'Frontend', proficiency: 92, highlight: true },
-  { name: 'JavaScript (JS)', category: 'Frontend', proficiency: 92 },
-  { name: 'HTML5 & CSS3', category: 'Frontend', proficiency: 95 },
-  { name: 'Tailwind CSS', category: 'Frontend', proficiency: 90 },
+  { name: 'React (TypeScript)', category: 'Frontend', proficiency: 94, highlight: true, featured: true },
+  { name: 'Tailwind CSS', category: 'Frontend', proficiency: 90, featured: true },
+  { name: 'HTML5 & CSS3', category: 'Frontend', proficiency: 95, featured: true },
+  { name: 'JavaScript (ES6+ / Modern Web)', category: 'Frontend', proficiency: 92 },
 
   // Backend
-  { name: 'Java (Spring Boot)', category: 'Backend', proficiency: 95, highlight: true },
-  { name: 'Python (FastAPI)', category: 'Backend', proficiency: 90, highlight: true },
+  { name: 'Java (Spring Boot)', category: 'Backend', proficiency: 96, highlight: true, featured: true },
+  { name: 'Python (FastAPI)', category: 'Backend', proficiency: 90, highlight: true, featured: true },
+  { name: 'Microservices', category: 'Backend', proficiency: 95, highlight: true, featured: true },
+  { name: 'RESTful APIs', category: 'Backend', proficiency: 96, highlight: true, featured: true },
   { name: 'Python (Django)', category: 'Backend', proficiency: 85 },
-  { name: 'RESTful APIs', category: 'Backend', proficiency: 96, highlight: true },
-  { name: 'Microservices', category: 'Backend', proficiency: 92, highlight: true },
 
   // Database
-  { name: 'PostgreSQL', category: 'Database', proficiency: 92, highlight: true },
-  { name: 'Oracle Database', category: 'Database', proficiency: 86 },
+  { name: 'PostgreSQL', category: 'Database', proficiency: 92, highlight: true, featured: true },
+  { name: 'Oracle Database', category: 'Database', proficiency: 88, featured: true },
   { name: 'MySQL', category: 'Database', proficiency: 88 },
   { name: 'SQL Query Optimization', category: 'Database', proficiency: 90 },
-  { name: 'Data Validation', category: 'Database', proficiency: 94 },
+  { name: 'Data Validation & Integrity', category: 'Database', proficiency: 94 },
 
   // QA & Testing
-  { name: 'Functional & Non-Functional Testing', category: 'QA & Testing', proficiency: 95, highlight: true },
-  { name: 'API Testing (Postman / RestAssured)', category: 'QA & Testing', proficiency: 96, highlight: true },
-  { name: 'System Integration Testing (SIT)', category: 'QA & Testing', proficiency: 96, highlight: true },
+  { name: 'API Testing (Postman / RestAssured)', category: 'QA & Testing', proficiency: 96, highlight: true, featured: true },
+  { name: 'System Integration Testing (SIT)', category: 'QA & Testing', proficiency: 96, highlight: true, featured: true },
+  { name: 'Performance & Load Testing (JMeter)', category: 'QA & Testing', proficiency: 88, featured: true },
+  { name: 'Functional & Non-Functional Testing', category: 'QA & Testing', proficiency: 95 },
   { name: 'Regression & UAT Testing', category: 'QA & Testing', proficiency: 94 },
-  { name: 'Performance & Load Testing (JMeter)', category: 'QA & Testing', proficiency: 88 },
   { name: 'Automation Testing Scripts', category: 'QA & Testing', proficiency: 88 },
-  { name: 'Defect Management & Triage', category: 'QA & Testing', proficiency: 95 },
+  { name: 'Defect Management & Triage (Jira)', category: 'QA & Testing', proficiency: 95 },
 
   // DevOps
-  { name: 'Kubernetes', category: 'DevOps', proficiency: 90, highlight: true },
-  { name: 'Docker', category: 'DevOps', proficiency: 92, highlight: true },
-  { name: 'Helm', category: 'DevOps', proficiency: 85 },
-  { name: 'Jenkins', category: 'DevOps', proficiency: 90, highlight: true },
+  { name: 'Kubernetes', category: 'DevOps', proficiency: 92, highlight: true, featured: true },
+  { name: 'Docker', category: 'DevOps', proficiency: 94, highlight: true, featured: true },
+  { name: 'Jenkins', category: 'DevOps', proficiency: 90, highlight: true, featured: true },
   { name: 'Git & GitLab', category: 'DevOps', proficiency: 94 },
+  { name: 'Helm', category: 'DevOps', proficiency: 86 },
+  { name: 'Linux Administration', category: 'DevOps', proficiency: 90 },
   { name: 'ArgoCD', category: 'DevOps', proficiency: 84 },
-  { name: 'LINUX Administration', category: 'DevOps', proficiency: 90 },
 
   // Enterprise Integration
-  { name: 'TIBCO BusinessWorks', category: 'Enterprise Integration', proficiency: 92, highlight: true },
-  { name: 'Middleware Integration', category: 'Enterprise Integration', proficiency: 94, highlight: true },
+  { name: 'TIBCO BusinessWorks', category: 'Enterprise Integration', proficiency: 92, highlight: true, featured: true },
+  { name: 'Middleware Integration', category: 'Enterprise Integration', proficiency: 94 },
   { name: 'REST / SOAP Services', category: 'Enterprise Integration', proficiency: 96 },
   { name: 'Vendor Integration', category: 'Enterprise Integration', proficiency: 94 },
 
   // Monitoring
-  { name: 'Prometheus & Grafana', category: 'Monitoring', proficiency: 88, highlight: true },
+  { name: 'Prometheus & Grafana', category: 'Monitoring', proficiency: 90, highlight: true, featured: true },
   { name: 'Log Analysis & Root-Cause Analysis', category: 'Monitoring', proficiency: 92 },
   { name: 'Cluster & Service Monitoring', category: 'Monitoring', proficiency: 90 },
-  { name: 'Production Troubleshooting', category: 'Monitoring', proficiency: 95, highlight: true },
+  { name: 'Production Troubleshooting', category: 'Monitoring', proficiency: 95 },
+  { name: 'Splunk', category: 'Monitoring', proficiency: 95 },
+  { name: 'Grafana', category: 'Monitoring', proficiency: 95 },
 ];
 
 export const EXPERIENCE_LIST: ExperienceItem[] = [
@@ -344,32 +346,5 @@ export const PROJECTS_LIST: ProjectItem[] = [
       { label: 'Test Suites', value: 'Postman + JMeter' },
       { label: 'SIT Sign-Offs', value: 'Verified' }
     ]
-  }
-];
-
-export const QA_PILLARS: QaPillar[] = [
-  {
-    title: 'Shift-Left Testing',
-    description: 'Quality starts at requirement gathering and architecture design, preventing costly rework long before code reaches QA environments.',
-    icon: 'ArrowLeftCircle',
-    details: ['Acceptance Criteria Validation', 'API Contract Specification', 'Early Risk Identification']
-  },
-  {
-    title: 'API & Integration Rigor',
-    description: 'Deep technical validation of backend protocols, HTTP status codes, security tokens, payload encryption, and database transaction integrity.',
-    icon: 'Server',
-    details: ['REST & SOAP Endpoint Auditing', 'Idempotency & Boundary Checks', 'Database State Assertions']
-  },
-  {
-    title: 'Automated Regression Suites',
-    description: 'Eliminating repetitive manual verification by embedding automated API collections into continuous delivery CI/CD pipelines.',
-    icon: 'RotateCw',
-    details: ['Postman / Newman Pipeline Gatekeeper', 'Nightly Test Collection Execution', 'Instant Failure Alerts']
-  },
-  {
-    title: 'Performance & Resiliency',
-    description: 'Simulating peak enterprise load, identifying query bottlenecks, and ensuring systems maintain low latency under high concurrency.',
-    icon: 'Zap',
-    details: ['JMeter Load & Stress Tests', 'Database Index & Lock Analysis', 'Failover & Timeout Simulation']
   }
 ];
