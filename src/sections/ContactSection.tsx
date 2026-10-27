@@ -205,15 +205,10 @@ export const ContactSection: React.FC = () => {
             className="lg:col-span-7 glass-card p-6 sm:p-8 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-2xl"
           >
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                  <MessageSquare className="w-5 h-5 text-cyan-500" />
-                  Send a Message
-                </h3>
-                <span className="text-xs font-mono px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-                  to {PERSONAL_INFO.contactEmail}
-                </span>
-              </div>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-4">
+                <MessageSquare className="w-5 h-5 text-cyan-500" />
+                Send a Message
+              </h3>
 
               {isSubmitted && (
                 <div className="p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-700 dark:text-emerald-300 text-xs sm:text-sm font-medium space-y-2">
