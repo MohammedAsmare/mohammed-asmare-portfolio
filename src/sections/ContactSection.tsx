@@ -15,50 +15,23 @@ export const ContactSection: React.FC = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [submitError, setSubmitError] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) return;
+  const handleSubmit = (e: React.FormEvent) => {
+    if (!formData.name || !formData.email || !formData.message) {
+      e.preventDefault();
+      return;
+    }
 
     setIsSubmitting(true);
-    setSubmitError(false);
 
-    try {
-      const response = await fetch(`https://formsubmit.co/ajax/${PERSONAL_INFO.contactEmail}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          _subject: formData.subject || `New Portfolio Message from ${formData.name}`,
-          message: formData.message,
-          _replyto: formData.email,
-          _template: 'table',
-          _captcha: 'false',
-        }),
-      });
-
-      if (response.ok) {
-        setIsSubmitted(true);
-        setFormData({ name: '', email: '', subject: '', message: '' });
-        setTimeout(() => setIsSubmitted(false), 7000);
-      } else {
-        setSubmitError(true);
-        setTimeout(() => setSubmitError(false), 7000);
-      }
-    } catch {
-      // In case of network errors, still register success if request was dispatched
+    // Form submits natively to the hidden iframe to bypass CORS
+    setTimeout(() => {
+      setIsSubmitting(false);
       setIsSubmitted(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setIsSubmitted(false), 7000);
-    } finally {
-      setIsSubmitting(false);
-    }
+      setTimeout(() => setIsSubmitted(false), 8000);
+    }, 1500);
   };
 
   const copyEmail = () => {
@@ -69,6 +42,15 @@ export const ContactSection: React.FC = () => {
 
   return (
     <section id="contact" className="py-20 md:py-28 relative bg-dots-glow">
+      {/* Hidden iframe to receive form response without page reload or redirect */}
+      <iframe
+        name="contact_hidden_iframe"
+        id="contact_hidden_iframe"
+        title="Form Submission Target"
+        className="hidden"
+        style={{ display: 'none' }}
+      />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeading
           badge="Get In Touch"
@@ -184,7 +166,19 @@ export const ContactSection: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="lg:col-span-7 glass-card p-6 sm:p-8 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-2xl"
           >
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form
+              action={`https://formsubmit.co/${PERSONAL_INFO.contactEmail}`}
+              method="POST"
+              target="contact_hidden_iframe"
+              onSubmit={handleSubmit}
+              className="space-y-4"
+            >
+              {/* FormSubmit Configuration Fields */}
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_subject" value={formData.subject || `New Portfolio Message from ${formData.name || 'Visitor'}`} />
+              <input type="hidden" name="_cc" value="mohammedasmaresafaricom@gmail.com" />
+
               <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-4">
                 <MessageSquare className="w-5 h-5 text-cyan-500" />
                 Send a Message
@@ -197,13 +191,6 @@ export const ContactSection: React.FC = () => {
                 </div>
               )}
 
-              {submitError && (
-                <div className="p-4 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-700 dark:text-rose-300 text-xs sm:text-sm font-medium flex items-center gap-2.5">
-                  <AlertCircle className="w-5 h-5 text-rose-500 shrink-0" />
-                  <span>Failed to send message. Please try again or reach out directly at {PERSONAL_INFO.contactEmail}.</span>
-                </div>
-              )}
-
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-mono font-medium text-slate-700 dark:text-slate-300 mb-1">
@@ -211,6 +198,7 @@ export const ContactSection: React.FC = () => {
                   </label>
                   <input
                     type="text"
+                    name="name"
                     required
                     placeholder="e.g. Hiring Manager / Engineering Lead"
                     value={formData.name}
@@ -225,8 +213,9 @@ export const ContactSection: React.FC = () => {
                   </label>
                   <input
                     type="email"
+                    name="email"
                     required
-                    placeholder="email"
+                    placeholder="e.g. name@company.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
@@ -240,6 +229,7 @@ export const ContactSection: React.FC = () => {
                 </label>
                 <input
                   type="text"
+                  name="subject"
                   placeholder="e.g. Full Stack / QA / DevOps Engineering Opportunity"
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
@@ -253,6 +243,7 @@ export const ContactSection: React.FC = () => {
                 </label>
                 <textarea
                   required
+                  name="message"
                   rows={5}
                   placeholder="Describe your project, team requirements, or opportunity..."
                   value={formData.message}
