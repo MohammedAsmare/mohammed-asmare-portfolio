@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { SectionHeading } from '../components/ui/SectionHeading';
-import { Linkedin, Github, Send, MapPin, CheckCircle2, Copy, Check, MessageSquare, Phone, Mail, ExternalLink } from 'lucide-react';
+import { Linkedin, Github, Send, MapPin, CheckCircle2, Copy, Check, MessageSquare, Phone } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { PERSONAL_INFO } from '../data/portfolioData';
 
@@ -17,68 +17,21 @@ export const ContactSection: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
 
-  const getEmailSubject = () => {
-    return formData.subject || `Portfolio Inquiry from ${formData.name || 'Visitor'}`;
-  };
-
-  const getEmailBody = () => {
-    return `Hello Mohammed,\n\nName: ${formData.name}\nEmail: ${formData.email}\nSubject: ${formData.subject || 'Portfolio Inquiry'}\n\nMessage:\n${formData.message}\n\nBest regards,\n${formData.name}`;
-  };
-
-  const buildGmailUrl = () => {
-    const su = encodeURIComponent(getEmailSubject());
-    const body = encodeURIComponent(getEmailBody());
-    return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(PERSONAL_INFO.contactEmail)}&su=${su}&body=${body}`;
-  };
-
-  const buildMailtoUrl = () => {
-    const subject = encodeURIComponent(getEmailSubject());
-    const body = encodeURIComponent(getEmailBody());
-    return `mailto:${PERSONAL_INFO.contactEmail}?subject=${subject}&body=${body}`;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) return;
+  const handleSubmit = (e: React.FormEvent) => {
+    if (!formData.name || !formData.email || !formData.message) {
+      e.preventDefault();
+      return;
+    }
 
     setIsSubmitting(true);
 
-    try {
-      // 1. Dispatch to formsubmit backend
-      fetch(`https://formsubmit.co/ajax/${PERSONAL_INFO.contactEmail}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          _subject: getEmailSubject(),
-          message: formData.message,
-          _replyto: formData.email,
-          _template: 'table',
-          _captcha: 'false',
-        }),
-      }).catch(() => null);
-
-      // 2. Open Gmail compose directly in new tab with recipient pre-set to mohammedasmare@gmail.com
-      const gmailTab = window.open(buildGmailUrl(), '_blank');
-
-      // 3. Fallback to mailto if popup blocker prevented tab
-      if (!gmailTab || gmailTab.closed || typeof gmailTab.closed === 'undefined') {
-        window.location.href = buildMailtoUrl();
-      }
-
+    // Native form submission posts directly to the hidden iframe without redirects or opening tabs
+    setTimeout(() => {
+      setIsSubmitting(false);
       setIsSubmitted(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setIsSubmitted(false), 12000);
-    } catch {
-      window.location.href = buildMailtoUrl();
-      setIsSubmitted(true);
-    } finally {
-      setIsSubmitting(false);
-    }
+      setTimeout(() => setIsSubmitted(false), 8000);
+    }, 1200);
   };
 
   const copyEmail = () => {
@@ -89,6 +42,15 @@ export const ContactSection: React.FC = () => {
 
   return (
     <section id="contact" className="py-20 md:py-28 relative bg-dots-glow">
+      {/* Hidden iframe handles the POST request in the background without redirecting or navigating away */}
+      <iframe
+        name="contact_hidden_iframe"
+        id="contact_hidden_iframe"
+        title="Form Target"
+        className="hidden"
+        style={{ display: 'none' }}
+      />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeading
           badge="Get In Touch"
@@ -204,21 +166,28 @@ export const ContactSection: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="lg:col-span-7 glass-card p-6 sm:p-8 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-2xl"
           >
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form
+              action={`https://formsubmit.co/${PERSONAL_INFO.contactEmail}`}
+              method="POST"
+              target="contact_hidden_iframe"
+              onSubmit={handleSubmit}
+              className="space-y-4"
+            >
+              {/* FormSubmit Configuration */}
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_subject" value={formData.subject || `New Portfolio Message from ${formData.name || 'Visitor'}`} />
+              <input type="hidden" name="_cc" value="mohammedasmaresafaricom@gmail.com" />
+
               <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-4">
                 <MessageSquare className="w-5 h-5 text-cyan-500" />
                 Send a Message
               </h3>
 
               {isSubmitted && (
-                <div className="p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-700 dark:text-emerald-300 text-xs sm:text-sm font-medium space-y-2">
-                  <div className="flex items-center gap-2 font-semibold">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
-                    <span>Email opened to {PERSONAL_INFO.contactEmail}!</span>
-                  </div>
-                  <p className="text-xs leading-relaxed text-emerald-800 dark:text-emerald-200/90 pl-7">
-                    A compose tab in Gmail has been opened with your message pre-filled to <strong>{PERSONAL_INFO.contactEmail}</strong>. Simply hit Send in Gmail to deliver immediately!
-                  </p>
+                <div className="p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-700 dark:text-emerald-300 text-xs sm:text-sm font-medium flex items-center gap-2.5">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
+                  <span>Thank you! Your message has been sent successfully. Mohammed will get back to you soon.</span>
                 </div>
               )}
 
@@ -229,6 +198,7 @@ export const ContactSection: React.FC = () => {
                   </label>
                   <input
                     type="text"
+                    name="name"
                     required
                     placeholder="e.g. Hiring Manager / Engineering Lead"
                     value={formData.name}
@@ -243,8 +213,9 @@ export const ContactSection: React.FC = () => {
                   </label>
                   <input
                     type="email"
+                    name="email"
                     required
-                    placeholder="Email"
+                    placeholder="e.g. name@company.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
@@ -258,6 +229,7 @@ export const ContactSection: React.FC = () => {
                 </label>
                 <input
                   type="text"
+                  name="subject"
                   placeholder="e.g. Full Stack / QA / DevOps Engineering Opportunity"
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
@@ -271,6 +243,7 @@ export const ContactSection: React.FC = () => {
                 </label>
                 <textarea
                   required
+                  name="message"
                   rows={5}
                   placeholder="Describe your project, team requirements, or opportunity..."
                   value={formData.message}
@@ -279,7 +252,7 @@ export const ContactSection: React.FC = () => {
                 />
               </div>
 
-              <div className="space-y-3 pt-2">
+              <div className="pt-2">
                 <Button
                   type="submit"
                   variant="primary"
@@ -289,33 +262,8 @@ export const ContactSection: React.FC = () => {
                   icon={<Send className="w-4 h-4" />}
                   iconPosition="right"
                 >
-                  {isSubmitting ? 'Opening email...' : 'Send Message'}
+                  {isSubmitting ? 'Sending Message...' : 'Send Message'}
                 </Button>
-
-                {/* Direct quick links */}
-                <div className="flex flex-wrap items-center justify-center gap-4 pt-1">
-                  <a
-                    href={buildGmailUrl()}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors font-mono"
-                    title="Open directly in Gmail web compose"
-                  >
-                    <Mail className="w-3.5 h-3.5 text-cyan-500" />
-                    <span>Open in Gmail Web</span>
-                    <ExternalLink className="w-3 h-3 text-slate-400" />
-                  </a>
-
-                  <span className="text-slate-400 dark:text-slate-600 text-xs">•</span>
-
-                  <a
-                    href={buildMailtoUrl()}
-                    className="inline-flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors font-mono"
-                    title="Open in your default desktop email client (Outlook, Thunderbird, etc.)"
-                  >
-                    <span>Open in Default Mail Client</span>
-                  </a>
-                </div>
               </div>
             </form>
           </motion.div>
