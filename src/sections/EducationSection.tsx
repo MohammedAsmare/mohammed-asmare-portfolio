@@ -9,11 +9,11 @@ export const EducationSection: React.FC = () => {
   return (
     <section id="education" className="py-20 md:py-28 bg-slate-100/50 dark:bg-slate-900/30 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-16">
-        
+
         {/* Education Part */}
         <div>
           <SectionHeading
-            badge="Academic Credentials"
+            badge="Learning Curve"
             title="Education & Qualifications"
             subtitle="Combining strong Computer Science fundamentals with advanced post-graduate study in Enterprise Project Management."
           />

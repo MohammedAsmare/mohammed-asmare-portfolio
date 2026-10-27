@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './sections/HeroSection';
-import { AboutSection } from './sections/AboutSection';
 import { SkillsSection } from './sections/SkillsSection';
 import { ExperienceSection } from './sections/ExperienceSection';
 import { ProjectsSection } from './sections/ProjectsSection';
@@ -22,7 +21,6 @@ export const App: React.FC = () => {
       {/* Main Content Sections */}
       <main className="flex-grow">
         <HeroSection onOpenResume={() => setResumeModalOpen(true)} />
-        <AboutSection />
         <SkillsSection />
         <ExperienceSection />
         <ProjectsSection />

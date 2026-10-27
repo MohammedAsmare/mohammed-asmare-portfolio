@@ -29,7 +29,7 @@ export const ProjectsSection: React.FC = () => {
     <section id="projects" className="py-20 md:py-28 relative bg-dots-glow">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeading
-          badge="Featured Engineering Case Studies"
+          badge="Projects"
           title="Enterprise Projects & Architecture"
           subtitle="Real-world case studies showcasing microservice engineering, legacy modernization, automated deployment pipelines, and multi-vendor SIT governance."
         />

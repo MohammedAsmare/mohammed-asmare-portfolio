@@ -15,6 +15,7 @@ export interface SkillItem {
   iconName?: string;
   highlight?: boolean;
   featured?: boolean;
+  description?: string;
 }
 
 export interface ExperienceItem {

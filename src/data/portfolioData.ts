@@ -18,74 +18,118 @@ export const PERSONAL_INFO = {
 };
 
 export const SKILL_ITEMS: SkillItem[] = [
-  // Programming
-  { name: 'Java', category: 'Programming', proficiency: 94, highlight: true, featured: true },
-  { name: 'Python', category: 'Programming', proficiency: 90, highlight: true, featured: true },
-  { name: 'TypeScript', category: 'Programming', proficiency: 92, highlight: true, featured: true },
-  { name: 'JavaScript', category: 'Programming', proficiency: 92 },
-  { name: 'SQL', category: 'Programming', proficiency: 92 },
-  { name: 'C++', category: 'Programming', proficiency: 80 },
-
-  // Frontend
-  { name: 'React (TypeScript)', category: 'Frontend', proficiency: 94, highlight: true, featured: true },
-  { name: 'Tailwind CSS', category: 'Frontend', proficiency: 90, featured: true },
-  { name: 'HTML5 & CSS3', category: 'Frontend', proficiency: 95, featured: true },
-  { name: 'JavaScript (ES6+ / Modern Web)', category: 'Frontend', proficiency: 92 },
-
-  // Backend
-  { name: 'Java (Spring Boot)', category: 'Backend', proficiency: 96, highlight: true, featured: true },
-  { name: 'Python (FastAPI)', category: 'Backend', proficiency: 90, highlight: true, featured: true },
-  { name: 'Microservices', category: 'Backend', proficiency: 95, highlight: true, featured: true },
-  { name: 'RESTful APIs', category: 'Backend', proficiency: 96, highlight: true, featured: true },
-  { name: 'Python (Django)', category: 'Backend', proficiency: 85 },
-
-  // Database
-  { name: 'PostgreSQL', category: 'Database', proficiency: 92, highlight: true, featured: true },
-  { name: 'Oracle Database', category: 'Database', proficiency: 88, featured: true },
-  { name: 'MySQL', category: 'Database', proficiency: 88 },
-  { name: 'SQL Query Optimization', category: 'Database', proficiency: 90 },
-  { name: 'Data Validation & Integrity', category: 'Database', proficiency: 94 },
-
-  // QA & Testing
-  { name: 'API Testing (Postman / RestAssured)', category: 'QA & Testing', proficiency: 96, highlight: true, featured: true },
-  { name: 'System Integration Testing (SIT)', category: 'QA & Testing', proficiency: 96, highlight: true, featured: true },
-  { name: 'Performance & Load Testing (JMeter)', category: 'QA & Testing', proficiency: 88, featured: true },
-  { name: 'Functional & Non-Functional Testing', category: 'QA & Testing', proficiency: 95 },
-  { name: 'Regression & UAT Testing', category: 'QA & Testing', proficiency: 94 },
-  { name: 'Automation Testing Scripts', category: 'QA & Testing', proficiency: 88 },
-  { name: 'Defect Management & Triage (Jira)', category: 'QA & Testing', proficiency: 95 },
-
-  // DevOps
-  { name: 'Kubernetes', category: 'DevOps', proficiency: 92, highlight: true, featured: true },
-  { name: 'Docker', category: 'DevOps', proficiency: 94, highlight: true, featured: true },
-  { name: 'Jenkins', category: 'DevOps', proficiency: 90, highlight: true, featured: true },
-  { name: 'Git & GitLab', category: 'DevOps', proficiency: 94 },
-  { name: 'Helm', category: 'DevOps', proficiency: 86 },
-  { name: 'Linux Administration', category: 'DevOps', proficiency: 90 },
-  { name: 'ArgoCD', category: 'DevOps', proficiency: 84 },
-
-  // Enterprise Integration
-  { name: 'TIBCO BusinessWorks', category: 'Enterprise Integration', proficiency: 92, highlight: true, featured: true },
-  { name: 'Middleware Integration', category: 'Enterprise Integration', proficiency: 94 },
-  { name: 'REST / SOAP Services', category: 'Enterprise Integration', proficiency: 96 },
-  { name: 'Vendor Integration', category: 'Enterprise Integration', proficiency: 94 },
-
-  // Monitoring
-  { name: 'Prometheus & Grafana', category: 'Monitoring', proficiency: 90, highlight: true, featured: true },
-  { name: 'Log Analysis & Root-Cause Analysis', category: 'Monitoring', proficiency: 92 },
-  { name: 'Cluster & Service Monitoring', category: 'Monitoring', proficiency: 90 },
-  { name: 'Production Troubleshooting', category: 'Monitoring', proficiency: 95 },
-  { name: 'Splunk', category: 'Monitoring', proficiency: 95 },
-  { name: 'Grafana', category: 'Monitoring', proficiency: 95 },
+  {
+    name: 'Java (Spring Boot)',
+    category: 'Backend',
+    proficiency: 96,
+    highlight: true,
+    featured: true,
+    description: 'Enterprise microservices, RESTful APIs, Spring Security & high-throughput distributed backends.'
+  },
+  {
+    name: 'Python (FastAPI)',
+    category: 'Backend',
+    proficiency: 92,
+    highlight: true,
+    featured: true,
+    description: 'High-performance asynchronous APIs, backend services, and automated integration tooling.'
+  },
+  {
+    name: 'React (TypeScript)',
+    category: 'Frontend',
+    proficiency: 94,
+    highlight: true,
+    featured: true,
+    description: 'Modern component-driven web architectures, state management, and responsive interfaces.'
+  },
+  {
+    name: 'Kubernetes',
+    category: 'DevOps',
+    proficiency: 92,
+    highlight: true,
+    featured: true,
+    description: 'Cluster administration, Helm chart packaging, workload scaling, and container orchestration.'
+  },
+  {
+    name: 'Docker',
+    category: 'DevOps',
+    proficiency: 94,
+    highlight: true,
+    featured: true,
+    description: 'Containerization, multi-stage build optimization, and standardized runtime environments.'
+  },
+  {
+    name: 'PostgreSQL',
+    category: 'Database',
+    proficiency: 92,
+    highlight: true,
+    featured: true,
+    description: 'Relational data modeling, complex query tuning, transaction integrity, and index optimization.'
+  },
+  {
+    name: 'API Testing & Postman (SIT)',
+    category: 'QA & Testing',
+    proficiency: 96,
+    highlight: true,
+    featured: true,
+    description: 'System Integration Testing leadership, automated Postman test collections, and contract verification.'
+  },
+  {
+    name: 'Jenkins & CI/CD',
+    category: 'DevOps',
+    proficiency: 90,
+    highlight: true,
+    featured: true,
+    description: 'End-to-end pipeline automation, continuous integration, artifact packaging, and zero-downtime releases.'
+  },
+  {
+    name: 'TIBCO & Enterprise Integration',
+    category: 'Enterprise Integration',
+    proficiency: 94,
+    highlight: true,
+    featured: true,
+    description: 'Middleware modernization, 20+ Commercial Bank integrations, M-Pesa ecosystem, and SOAP/REST services.'
+  },
+  {
+    name: 'Prometheus & Grafana',
+    category: 'Monitoring',
+    proficiency: 90,
+    highlight: true,
+    featured: true,
+    description: 'Observability, health dashboards, real-time alert policies, and operational troubleshooting.'
+  }
 ];
 
 export const EXPERIENCE_LIST: ExperienceItem[] = [
   {
     company: 'Safaricom Ethiopia',
-    role: 'Specialist Integration and DevOps Engineer',
-    period: '01/2025 – Present',
+    role: 'Integration Manager',
+    period: '08/2026 – Present',
     location: 'Addis Ababa, Ethiopia',
     isCurrent: true,
+    tagline: 'Leading enterprise integration strategy, mission-critical API ecosystems, and cross-functional engineering delivery.',
+    highlights: [
+      'Lead enterprise integration architecture and strategy, directing multi-system orchestration, middleware platforms, and core API ecosystems.',
+      'Manage cross-functional engineering, integration, and DevOps teams to deliver scalable, resilient telecommunications and fintech services.',
+      'Oversee partner API contract validation, defect triage, SIT governance, and production incident management across enterprise environments.',
+      'Align integration solutions with strategic business objectives, financial partner standards, and multi-vendor integrations.'
+    ],
+    technologies: [
+      'Integration Architecture', 'Java Spring Boot', 'Python FastAPI', 'Kubernetes', 'Docker',
+      'API Governance', 'Fintech Integration', 'M-Pesa Ecosystem', 'CI/CD Automation'
+    ],
+    metrics: [
+      { label: 'Role Scope', value: 'Management' },
+      { label: 'Delivery Model', value: 'Agile & DevOps' },
+      { label: 'Target SLA', value: '99.9%' }
+    ]
+  },
+  {
+    company: 'Safaricom Ethiopia',
+    role: 'Specialist Integration and DevOps Engineer',
+    period: '01/2024 – 08/2026',
+    location: 'Addis Ababa, Ethiopia',
+    isCurrent: false,
     tagline: 'Leading enterprise application development, cloud-native Kubernetes management, and microservices integration.',
     highlights: [
       'Full-Stack Engineer designing, developing, and supporting enterprise-grade applications using React, TypeScript, Java Spring Boot, and Python FastAPI.',

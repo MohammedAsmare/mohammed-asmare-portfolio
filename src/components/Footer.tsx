@@ -33,7 +33,6 @@ export const Footer: React.FC = () => {
           {/* Nav Quick Links */}
           <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-mono">
             <button onClick={() => scrollToSection('home')} className="hover:text-cyan-400 transition-colors">Home</button>
-            <button onClick={() => scrollToSection('about')} className="hover:text-cyan-400 transition-colors">About</button>
             <button onClick={() => scrollToSection('skills')} className="hover:text-cyan-400 transition-colors">Skills</button>
             <button onClick={() => scrollToSection('experience')} className="hover:text-cyan-400 transition-colors">Experience</button>
             <button onClick={() => scrollToSection('projects')} className="hover:text-cyan-400 transition-colors">Projects</button>

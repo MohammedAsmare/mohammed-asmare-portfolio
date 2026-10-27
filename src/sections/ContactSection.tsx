@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { SectionHeading } from '../components/ui/SectionHeading';
-import { Linkedin, Github, Send, MapPin, CheckCircle2, Copy, Check, MessageSquare, Phone, Mail } from 'lucide-react';
+import { Linkedin, Github, Send, MapPin, CheckCircle2, Copy, Check, MessageSquare, Phone, Mail, ExternalLink } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { PERSONAL_INFO } from '../data/portfolioData';
 
@@ -17,17 +17,68 @@ export const ContactSection: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const getEmailSubject = () => {
+    return formData.subject || `Portfolio Inquiry from ${formData.name || 'Visitor'}`;
+  };
+
+  const getEmailBody = () => {
+    return `Hello Mohammed,\n\nName: ${formData.name}\nEmail: ${formData.email}\nSubject: ${formData.subject || 'Portfolio Inquiry'}\n\nMessage:\n${formData.message}\n\nBest regards,\n${formData.name}`;
+  };
+
+  const buildGmailUrl = () => {
+    const su = encodeURIComponent(getEmailSubject());
+    const body = encodeURIComponent(getEmailBody());
+    return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(PERSONAL_INFO.contactEmail)}&su=${su}&body=${body}`;
+  };
+
+  const buildMailtoUrl = () => {
+    const subject = encodeURIComponent(getEmailSubject());
+    const body = encodeURIComponent(getEmailBody());
+    return `mailto:${PERSONAL_INFO.contactEmail}?subject=${subject}&body=${body}`;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+
+    try {
+      // 1. Dispatch to formsubmit backend
+      fetch(`https://formsubmit.co/ajax/${PERSONAL_INFO.contactEmail}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          _subject: getEmailSubject(),
+          message: formData.message,
+          _replyto: formData.email,
+          _template: 'table',
+          _captcha: 'false',
+        }),
+      }).catch(() => null);
+
+      // 2. Open Gmail compose directly in new tab with recipient pre-set to mohammedasmare@gmail.com
+      const gmailTab = window.open(buildGmailUrl(), '_blank');
+
+      // 3. Fallback to mailto if popup blocker prevented tab
+      if (!gmailTab || gmailTab.closed || typeof gmailTab.closed === 'undefined') {
+        window.location.href = buildMailtoUrl();
+      }
+
       setIsSubmitted(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setIsSubmitted(false), 6000);
-    }, 1200);
+      setTimeout(() => setIsSubmitted(false), 12000);
+    } catch {
+      window.location.href = buildMailtoUrl();
+      setIsSubmitted(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const copyEmail = () => {
@@ -46,7 +97,7 @@ export const ContactSection: React.FC = () => {
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-w-6xl mx-auto">
-          
+
           {/* Left Info Panel */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -71,9 +122,13 @@ export const ContactSection: React.FC = () => {
                   Email Address
                 </span>
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-sm font-mono text-cyan-600 dark:text-cyan-400 font-semibold truncate">
+                  <a
+                    href={`mailto:${PERSONAL_INFO.contactEmail}`}
+                    className="text-sm font-mono text-cyan-600 dark:text-cyan-400 font-semibold truncate hover:underline"
+                    title="Click to send email"
+                  >
                     {PERSONAL_INFO.contactEmail}
-                  </span>
+                  </a>
                   <button
                     onClick={copyEmail}
                     className="p-2 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-cyan-500/20 text-slate-700 dark:text-slate-300 hover:text-cyan-400 transition-colors shrink-0"
@@ -89,62 +144,55 @@ export const ContactSection: React.FC = () => {
                 <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider block flex items-center gap-1.5">
                   <Phone className="w-3.5 h-3.5 text-cyan-500" /> Phone Numbers
                 </span>
-                <div className="text-xs sm:text-sm font-mono text-slate-800 dark:text-slate-200 font-semibold space-y-1">
-                  {PERSONAL_INFO.phoneNumbers.map((phone, idx) => (
-                    <div key={idx}>{phone}</div>
+                <div className="space-y-1">
+                  {PERSONAL_INFO.phoneNumbers.map((phone, pIdx) => (
+                    <a
+                      key={pIdx}
+                      href={`tel:${phone.replace(/\s+/g, '')}`}
+                      className="block text-sm font-mono text-slate-700 dark:text-slate-300 hover:text-cyan-400 font-medium transition-colors"
+                    >
+                      {phone}
+                    </a>
                   ))}
                 </div>
               </div>
 
-              {/* Location */}
-              <div className="flex items-center gap-3 text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium">
-                <div className="p-2.5 rounded-xl bg-cyan-500/10 text-cyan-500 shrink-0">
-                  <MapPin className="w-4 h-4" />
-                </div>
-                <div>
-                  <span className="font-bold text-slate-900 dark:text-white block">Location</span>
-                  <span className="text-slate-500 dark:text-slate-400">{PERSONAL_INFO.location}</span>
-                </div>
-              </div>
-
-              {/* Social Channels */}
-              <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
-                <span className="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 block font-semibold">
-                  Professional Channels:
+              {/* Contact item: Location */}
+              <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-1">
+                <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider block flex items-center gap-1.5">
+                  <MapPin className="w-3.5 h-3.5 text-cyan-500" /> Location
                 </span>
-                <div className="flex flex-col gap-2">
-                  <a
-                    href={PERSONAL_INFO.linkedinUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-cyan-500/40 text-xs text-slate-700 dark:text-slate-200 font-semibold flex items-center justify-between transition-all"
-                  >
-                    <span className="flex items-center gap-2">
-                      <Linkedin className="w-4 h-4 text-cyan-500" />
-                      LinkedIn Profile
-                    </span>
-                    <span className="text-[11px] font-mono text-cyan-500">Connect →</span>
-                  </a>
-
-                  <a
-                    href={PERSONAL_INFO.githubUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-cyan-500/40 text-xs text-slate-700 dark:text-slate-200 font-semibold flex items-center justify-between transition-all"
-                  >
-                    <span className="flex items-center gap-2">
-                      <Github className="w-4 h-4 text-cyan-500" />
-                      GitHub Repositories
-                    </span>
-                    <span className="text-[11px] font-mono text-cyan-500">Explore →</span>
-                  </a>
-                </div>
+                <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
+                  {PERSONAL_INFO.location}
+                </span>
               </div>
             </div>
 
-            <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 shrink-0" />
-              <span>{PERSONAL_INFO.availability}</span>
+            {/* Social Buttons */}
+            <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-3">
+              <span className="text-xs font-mono uppercase tracking-wider text-slate-400 font-medium block">
+                Professional Profiles
+              </span>
+              <div className="flex items-center gap-3">
+                <a
+                  href={PERSONAL_INFO.linkedinUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex-1 py-2.5 px-4 rounded-xl bg-slate-200/80 dark:bg-slate-800/80 hover:bg-cyan-500/20 text-slate-800 dark:text-slate-200 hover:text-cyan-400 border border-slate-300 dark:border-slate-700 transition-all flex items-center justify-center gap-2 text-xs font-semibold"
+                >
+                  <Linkedin className="w-4 h-4 text-cyan-500" />
+                  <span>LinkedIn</span>
+                </a>
+                <a
+                  href={PERSONAL_INFO.githubUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex-1 py-2.5 px-4 rounded-xl bg-slate-200/80 dark:bg-slate-800/80 hover:bg-cyan-500/20 text-slate-800 dark:text-slate-200 hover:text-cyan-400 border border-slate-300 dark:border-slate-700 transition-all flex items-center justify-center gap-2 text-xs font-semibold"
+                >
+                  <Github className="w-4 h-4 text-slate-700 dark:text-slate-300" />
+                  <span>GitHub</span>
+                </a>
+              </div>
             </div>
           </motion.div>
 
@@ -157,15 +205,25 @@ export const ContactSection: React.FC = () => {
             className="lg:col-span-7 glass-card p-6 sm:p-8 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-2xl"
           >
             <form onSubmit={handleSubmit} className="space-y-4">
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-4">
-                <MessageSquare className="w-5 h-5 text-cyan-500" />
-                Send a Message
-              </h3>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                  <MessageSquare className="w-5 h-5 text-cyan-500" />
+                  Send a Message
+                </h3>
+                <span className="text-xs font-mono px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                  to {PERSONAL_INFO.contactEmail}
+                </span>
+              </div>
 
               {isSubmitted && (
-                <div className="p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-600 dark:text-emerald-300 text-xs sm:text-sm font-medium flex items-center gap-2">
-                  <CheckCircle2 className="w-5 h-5 shrink-0" />
-                  <span>Thank you! Your message has been sent successfully. Mohammed will respond shortly.</span>
+                <div className="p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-700 dark:text-emerald-300 text-xs sm:text-sm font-medium space-y-2">
+                  <div className="flex items-center gap-2 font-semibold">
+                    <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
+                    <span>Email opened to {PERSONAL_INFO.contactEmail}!</span>
+                  </div>
+                  <p className="text-xs leading-relaxed text-emerald-800 dark:text-emerald-200/90 pl-7">
+                    A compose tab in Gmail has been opened with your message pre-filled to <strong>{PERSONAL_INFO.contactEmail}</strong>. Simply hit Send in Gmail to deliver immediately!
+                  </p>
                 </div>
               )}
 
@@ -191,7 +249,7 @@ export const ContactSection: React.FC = () => {
                   <input
                     type="email"
                     required
-                    placeholder="name@company.com"
+                    placeholder="e.g. name@company.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
@@ -226,17 +284,44 @@ export const ContactSection: React.FC = () => {
                 />
               </div>
 
-              <Button
-                type="submit"
-                variant="primary"
-                size="lg"
-                disabled={isSubmitting}
-                className="w-full"
-                icon={<Send className="w-4 h-4" />}
-                iconPosition="right"
-              >
-                {isSubmitting ? 'Sending Message...' : 'Send Message'}
-              </Button>
+              <div className="space-y-3 pt-2">
+                <Button
+                  type="submit"
+                  variant="primary"
+                  size="lg"
+                  disabled={isSubmitting}
+                  className="w-full shadow-lg shadow-cyan-500/20"
+                  icon={<Send className="w-4 h-4" />}
+                  iconPosition="right"
+                >
+                  {isSubmitting ? 'Opening email...' : 'Send Message'}
+                </Button>
+
+                {/* Direct quick links */}
+                <div className="flex flex-wrap items-center justify-center gap-4 pt-1">
+                  <a
+                    href={buildGmailUrl()}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors font-mono"
+                    title="Open directly in Gmail web compose"
+                  >
+                    <Mail className="w-3.5 h-3.5 text-cyan-500" />
+                    <span>Open in Gmail Web</span>
+                    <ExternalLink className="w-3 h-3 text-slate-400" />
+                  </a>
+
+                  <span className="text-slate-400 dark:text-slate-600 text-xs">•</span>
+
+                  <a
+                    href={buildMailtoUrl()}
+                    className="inline-flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors font-mono"
+                    title="Open in your default desktop email client (Outlook, Thunderbird, etc.)"
+                  >
+                    <span>Open in Default Mail Client</span>
+                  </a>
+                </div>
+              </div>
             </form>
           </motion.div>
 

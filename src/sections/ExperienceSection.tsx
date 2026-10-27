@@ -10,7 +10,7 @@ export const ExperienceSection: React.FC = () => {
     <section id="experience" className="py-20 md:py-28 bg-slate-100/50 dark:bg-slate-900/30 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <SectionHeading
-          badge="Track Record"
+          badge="Experience"
           title="Professional Experience"
           subtitle="Proven trajectory delivering enterprise middleware, financial system integrations, and continuous delivery operations in top telecommunications environments."
         />
@@ -30,9 +30,8 @@ export const ExperienceSection: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: idx * 0.2 }}
-                  className={`relative flex flex-col md:flex-row items-center ${
-                    isEven ? 'md:flex-row-reverse' : ''
-                  }`}
+                  className={`relative flex flex-col md:flex-row items-center ${isEven ? 'md:flex-row-reverse' : ''
+                    }`}
                 >
                   {/* Timeline Dot Icon */}
                   <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 z-20 w-10 h-10 rounded-full bg-slate-900 border-2 border-cyan-400 text-cyan-400 items-center justify-center shadow-lg shadow-cyan-950/50">
@@ -42,7 +41,7 @@ export const ExperienceSection: React.FC = () => {
                   {/* Content Card */}
                   <div className="w-full md:w-[calc(50%-2rem)]">
                     <div className="glass-card p-6 sm:p-8 rounded-2xl space-y-5 border border-slate-200/80 dark:border-slate-800/80 hover:border-cyan-500/40 transition-all shadow-xl">
-                      
+
                       {/* Company & Role Header */}
                       <div className="space-y-2 border-b border-slate-200/80 dark:border-slate-800/80 pb-4">
                         <div className="flex items-center justify-between flex-wrap gap-2">
