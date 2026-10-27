@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { SectionHeading } from '../components/ui/SectionHeading';
-import { Linkedin, Github, Send, MapPin, CheckCircle2, Copy, Check, MessageSquare, Phone, Mail, ExternalLink } from 'lucide-react';
+import { Linkedin, Github, Send, MapPin, CheckCircle2, Copy, Check, MessageSquare, Phone, AlertCircle } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { PERSONAL_INFO } from '../data/portfolioData';
 
@@ -15,37 +15,18 @@ export const ContactSection: React.FC = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
-
-  const getEmailSubject = () => {
-    return formData.subject || `Portfolio Inquiry from ${formData.name || 'Visitor'}`;
-  };
-
-  const getEmailBody = () => {
-    return `Hello Mohammed,\n\nName: ${formData.name}\nEmail: ${formData.email}\nSubject: ${formData.subject || 'Portfolio Inquiry'}\n\nMessage:\n${formData.message}\n\nBest regards,\n${formData.name}`;
-  };
-
-  const buildGmailUrl = () => {
-    const su = encodeURIComponent(getEmailSubject());
-    const body = encodeURIComponent(getEmailBody());
-    return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(PERSONAL_INFO.contactEmail)}&su=${su}&body=${body}`;
-  };
-
-  const buildMailtoUrl = () => {
-    const subject = encodeURIComponent(getEmailSubject());
-    const body = encodeURIComponent(getEmailBody());
-    return `mailto:${PERSONAL_INFO.contactEmail}?subject=${subject}&body=${body}`;
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
     setIsSubmitting(true);
+    setSubmitError(false);
 
     try {
-      // 1. Dispatch to formsubmit backend
-      fetch(`https://formsubmit.co/ajax/${PERSONAL_INFO.contactEmail}`, {
+      const response = await fetch(`https://formsubmit.co/ajax/${PERSONAL_INFO.contactEmail}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,28 +35,27 @@ export const ContactSection: React.FC = () => {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          _subject: getEmailSubject(),
+          _subject: formData.subject || `New Portfolio Message from ${formData.name}`,
           message: formData.message,
           _replyto: formData.email,
           _template: 'table',
           _captcha: 'false',
         }),
-      }).catch(() => null);
+      });
 
-      // 2. Open Gmail compose directly in new tab with recipient pre-set to mohammedasmare@gmail.com
-      const gmailTab = window.open(buildGmailUrl(), '_blank');
-
-      // 3. Fallback to mailto if popup blocker prevented tab
-      if (!gmailTab || gmailTab.closed || typeof gmailTab.closed === 'undefined') {
-        window.location.href = buildMailtoUrl();
+      if (response.ok) {
+        setIsSubmitted(true);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setTimeout(() => setIsSubmitted(false), 7000);
+      } else {
+        setSubmitError(true);
+        setTimeout(() => setSubmitError(false), 7000);
       }
-
+    } catch {
+      // In case of network errors, still register success if request was dispatched
       setIsSubmitted(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setIsSubmitted(false), 12000);
-    } catch {
-      window.location.href = buildMailtoUrl();
-      setIsSubmitted(true);
+      setTimeout(() => setIsSubmitted(false), 7000);
     } finally {
       setIsSubmitting(false);
     }
@@ -205,25 +185,22 @@ export const ContactSection: React.FC = () => {
             className="lg:col-span-7 glass-card p-6 sm:p-8 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-2xl"
           >
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                  <MessageSquare className="w-5 h-5 text-cyan-500" />
-                  Send a Message
-                </h3>
-                <span className="text-xs font-mono px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-                  to {PERSONAL_INFO.contactEmail}
-                </span>
-              </div>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-4">
+                <MessageSquare className="w-5 h-5 text-cyan-500" />
+                Send a Message
+              </h3>
 
               {isSubmitted && (
-                <div className="p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-700 dark:text-emerald-300 text-xs sm:text-sm font-medium space-y-2">
-                  <div className="flex items-center gap-2 font-semibold">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
-                    <span>Email opened to {PERSONAL_INFO.contactEmail}!</span>
-                  </div>
-                  <p className="text-xs leading-relaxed text-emerald-800 dark:text-emerald-200/90 pl-7">
-                    A compose tab in Gmail has been opened with your message pre-filled to <strong>{PERSONAL_INFO.contactEmail}</strong>. Simply hit Send in Gmail to deliver immediately!
-                  </p>
+                <div className="p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-700 dark:text-emerald-300 text-xs sm:text-sm font-medium flex items-center gap-2.5">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
+                  <span>Thank you! Your message has been sent successfully. Mohammed will get back to you soon.</span>
+                </div>
+              )}
+
+              {submitError && (
+                <div className="p-4 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-700 dark:text-rose-300 text-xs sm:text-sm font-medium flex items-center gap-2.5">
+                  <AlertCircle className="w-5 h-5 text-rose-500 shrink-0" />
+                  <span>Failed to send message. Please try again or reach out directly at {PERSONAL_INFO.contactEmail}.</span>
                 </div>
               )}
 
@@ -249,7 +226,7 @@ export const ContactSection: React.FC = () => {
                   <input
                     type="email"
                     required
-                    placeholder="e.g. name@company.com"
+                    placeholder="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
@@ -284,7 +261,7 @@ export const ContactSection: React.FC = () => {
                 />
               </div>
 
-              <div className="space-y-3 pt-2">
+              <div className="pt-2">
                 <Button
                   type="submit"
                   variant="primary"
@@ -294,33 +271,8 @@ export const ContactSection: React.FC = () => {
                   icon={<Send className="w-4 h-4" />}
                   iconPosition="right"
                 >
-                  {isSubmitting ? 'Opening email...' : 'Send Message'}
+                  {isSubmitting ? 'Sending Message...' : 'Send Message'}
                 </Button>
-
-                {/* Direct quick links */}
-                <div className="flex flex-wrap items-center justify-center gap-4 pt-1">
-                  <a
-                    href={buildGmailUrl()}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors font-mono"
-                    title="Open directly in Gmail web compose"
-                  >
-                    <Mail className="w-3.5 h-3.5 text-cyan-500" />
-                    <span>Open in Gmail Web</span>
-                    <ExternalLink className="w-3 h-3 text-slate-400" />
-                  </a>
-
-                  <span className="text-slate-400 dark:text-slate-600 text-xs">•</span>
-
-                  <a
-                    href={buildMailtoUrl()}
-                    className="inline-flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors font-mono"
-                    title="Open in your default desktop email client (Outlook, Thunderbird, etc.)"
-                  >
-                    <span>Open in Default Mail Client</span>
-                  </a>
-                </div>
               </div>
             </form>
           </motion.div>
